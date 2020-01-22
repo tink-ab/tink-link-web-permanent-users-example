@@ -7,6 +7,9 @@ import {
   Credentials,
   refreshCredentialsLink
 } from "./api";
+import { Header } from "./Header";
+import { CheckIcon } from "./images/CheckIcon";
+import { PrettyCode } from "./PrettyCode";
 
 type RefreshCredentialsProps = {
   userId: string;
@@ -40,48 +43,66 @@ export const RefreshCredentials: React.FC<RefreshCredentialsProps> = ({
 
   return (
     <>
-      <h3>
-        User <pre style={{ display: "inline" }}>{userId}</pre> has added
-        credentials successfuly!
-      </h3>
+      <Header />
 
-      {!credentials && <div>Fetching credentials ...</div>}
-      {credentials &&
-        credentials.map(credential => (
-          <div key={credential.id}>
-            <textarea
-              cols={50}
-              rows={10}
-              defaultValue={JSON.stringify(credential)}
-            ></textarea>
-            {authorizationCode && (
-              <div>
-                Tink Link url to refresh{" "}
-                <pre style={{ display: "inline" }}>{credential.id}</pre>{" "}
-                credentials: <br />
-                <a
-                  href={refreshCredentialsLink(
-                    authorizationCode.code,
-                    userId,
-                    credential.id
-                  )}
-                >
-                  Refresh credentials
-                </a>
+      <div className="content">
+        <div className="heading-1">Add credentials to permanent user</div>
+
+        <div className="paper">
+          <div className="display-flex">
+            <div>
+              <CheckIcon />
+            </div>
+            <div className="ml-16 mr-40">
+              <div className="heading-2">
+                Credentials were successfully added to user!
               </div>
-            )}
+              {!credentials && <div>Fetching credentials ...</div>}
+              {credentials &&
+                credentials.map(credential => (
+                  <div key={credential.id}>
+                    <PrettyCode
+                      code={JSON.stringify(credential, null, 2)}
+                      className="mt-20"
+                    />
+                    {authorizationCode && (
+                      <a
+                        className="button mt-24"
+                        href={refreshCredentialsLink(
+                          authorizationCode.code,
+                          userId,
+                          credential.id
+                        )}
+                      >
+                        Refresh credentials
+                      </a>
+                    )}
+                  </div>
+                ))}
+
+              {authorizationCode && (
+                <div>
+                  <div className="mt-40">
+                    Tink Link url to add additional credentials
+                  </div>
+                  <pre className="code break-word mt-16 text">
+                    {getAddCredentialsLink(authorizationCode.code, userId)}
+                  </pre>
+
+                  <a
+                    className="button mt-24 mb-40"
+                    href={getAddCredentialsLink(authorizationCode.code, userId)}
+                  >
+                    Add another credentials to this user
+                  </a>
+                </div>
+              )}
+            </div>
           </div>
-        ))}
-
-      <hr />
-
-      {authorizationCode && (
-        <div>
-          <a href={getAddCredentialsLink(authorizationCode.code, userId)}>
-            Add another credentials to this user
-          </a>
         </div>
-      )}
+
+        <div className="walking-hand my-auto mt-120 mb-80"></div>
+      </div>
     </>
   );
 };

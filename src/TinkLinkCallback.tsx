@@ -1,4 +1,5 @@
 import React from "react";
+import { Error } from "./Error";
 import { RefreshCredentials } from "./RefreshCredentials";
 
 export const TinkLinkCallback = () => {
@@ -7,13 +8,9 @@ export const TinkLinkCallback = () => {
   const userId = urlParams.get("state");
 
   if (error) {
-    const errorMessage = urlParams.get("message");
+    const errorMessage = urlParams.get("message") || undefined;
 
-    return (
-      <div>
-        An error <b>{error}</b> occured with a message: {errorMessage}
-      </div>
-    );
+    return <Error error={error} errorMessage={errorMessage} />;
   }
 
   if (userId) {
