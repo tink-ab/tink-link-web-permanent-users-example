@@ -1,6 +1,16 @@
+:root {
+  --primary: #427783;
+}
+
+html,
+body {
+  height: 100%;
+  background-color: #fafbfb;
+  font-size: 16px;
+}
+
 body {
   margin: 0;
-  padding: 12px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
@@ -11,4 +21,189 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.content {
+  width: 960px;
+  margin: 0 auto;
+}
+
+.heading-1 {
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 600;
+  margin-bottom: 28px;
+}
+
+.heading-2 {
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+.paper {
+  background: #ffffff;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.08);
+  border-radius: 3px;
+  padding: 20px;
+}
+
+.delimiter {
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 30px -20px;
+}
+
+.step {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary);
+  background: rgba(66, 119, 131, 0.1);
+  border-radius: 17px;
+  height: 24px;
+  width: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.code {
+  background-color: #ebf0f1;
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin: 0;
+}
+
+.display-flex {
+  display: flex;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.p-32 {
+  padding: 32px;
+}
+
+.m-0 {
+  margin: 0;
+}
+
+.ml-16 {
+  margin-left: 16px;
+}
+
+.mr-40 {
+  margin-right: 40px;
+}
+
+.mt-16 {
+  margin-top: 16px;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mt-24 {
+  margin-top: 24px;
+}
+
+.mt-40 {
+  margin-top: 40px;
+}
+
+.mt-120 {
+  margin-top: 120px;
+}
+
+.mb-40 {
+  margin-bottom: 40px;
+}
+
+.mb-80 {
+  margin-bottom: 80px;
+}
+
+.my-auto {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.walking-hand {
+  background-image: url("./images/walking-hand.png");
+  background-size: contain;
+  width: 160px;
+  height: 212px;
+}
+
+.button {
+  border: 0;
+  color: #fff;
+  display: inline-block;
+  background-color: var(--primary);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.08);
+  border-radius: 24px;
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 600;
+  padding: 8px 24px;
+
+  outline: 0;
+  transition: background-color 0.15s ease;
+}
+
+.button:disabled {
+  opacity: 0.4;
+}
+
+.button:not(:disabled) {
+  cursor: pointer;
+}
+
+.button:hover:not(:disabled) {
+  background-color: #2d5d67;
+  box-shadow: 0px 6px 12px 0 rgba(0, 0, 0, 0.12);
+}
+
+a.button {
+  text-decoration: none;
+}
+
+.link {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.break-word {
+  white-space: normal;
+  word-break: break-word;
+}
+
+.close-icon svg {
+  height: 32px;
+  width: 32px;
+}
+
+.key {
+  color: #427783;
+}
+
+.string {
+  color: #36b472;
+}
+
+.number {
+  color: #0e9ec2;
+}
+
+.text {
+  color: #262626;
 }
