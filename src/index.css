@@ -133,7 +133,7 @@ code {
 }
 
 .walking-hand {
-  background-image: url("./images/walking-hand.png");
+  background-image: url("https://cdn.tink.se/example-apps/walking-hand.png");
   background-size: contain;
   width: 160px;
   height: 212px;
