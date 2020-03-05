@@ -83,6 +83,10 @@ code {
   justify-content: space-between;
 }
 
+.w-95p {
+width: 95%;
+}
+
 .p-32 {
   padding: 32px;
 }
@@ -206,4 +210,8 @@ a.button {
 
 .text {
   color: #262626;
+}
+
+.ws-pl{
+  white-space: pre-line;
 }
