@@ -106,3 +106,23 @@ export const refreshCredentialsLink = (
 
   return `${TINK_LINK_URL}/1.0/credentials/refresh?${params.join("&")}`;
 };
+
+export const authenticateCredentialsLink = (
+  authorizationCode: string,
+  userId: string,
+  credentialsId: string
+) => {
+  // Read more about Tink Link initialization parameters: https://docs.tink.com/api/#initialization-parameters
+  const params = [
+    `client_id=${process.env.REACT_APP_TINK_LINK_PERMANENT_USERS_CLIENT_ID}`,
+    "redirect_uri=http://localhost:3000/callback",
+    "scope=user:read,credentials:read",
+    "market=SE",
+    "locale=en_US",
+    `state=${userId}`,
+    `authorization_code=${authorizationCode}`,
+    `credentials_id=${credentialsId}`,
+  ];
+
+  return `${TINK_LINK_URL}/1.0/credentials/authenticate?${params.join("&")}`;
+};

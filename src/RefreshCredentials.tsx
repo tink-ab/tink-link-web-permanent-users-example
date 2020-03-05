@@ -5,7 +5,8 @@ import {
   getAddCredentialsLink,
   generateAuthorizationCode,
   Credentials,
-  refreshCredentialsLink, authenticateCredentialsLink,
+  refreshCredentialsLink,
+  authenticateCredentialsLink,
 } from './api';
 import { Header } from "./Header";
 import { CheckIcon } from "./images/CheckIcon";
@@ -66,6 +67,7 @@ export const RefreshCredentials: React.FC<RefreshCredentialsProps> = ({
                       className="mt-20 ws-pl"
                     />
                     {authorizationCode && (
+                      <>
                       <a
                         className="button mt-24"
                         href={refreshCredentialsLink(
@@ -76,6 +78,17 @@ export const RefreshCredentials: React.FC<RefreshCredentialsProps> = ({
                       >
                         Refresh credentials
                       </a>
+                        {credential.providerName.includes("open-banking") && <a
+                          className={"button mt-24 ml-16"}
+                          href={authenticateCredentialsLink(
+                            authorizationCode.code,
+                            userId,
+                            credential.id
+                          )}
+                        >
+                          Authenticate PSD2 credentials
+                        </a>}
+                      </>
                     )}
                   </div>
                 ))}
