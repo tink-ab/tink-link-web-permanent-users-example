@@ -114,12 +114,19 @@ export const AddCredentials: React.FC = () => {
 
                   <a
                     className="button mt-20"
+                    href={`/connect-bank-account?code=${authorizationCode.code}&state=${user.user_id}`}
+                  >
+                    Open Tink Link in an iframe
+                  </a>
+
+                  <a
+                    className="button mt-20 ml-16"
                     href={getAddCredentialsLink(
                       authorizationCode.code,
                       user.user_id
                     )}
                   >
-                    Open Tink Link
+                    Redirect me to Tink Link
                   </a>
                 </>
               )}
