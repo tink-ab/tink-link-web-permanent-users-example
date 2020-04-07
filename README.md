@@ -14,11 +14,12 @@ Running this example application requires `CLIENT_ID` and `CLIENT_SECRET` which 
 yarn
 ```
 
-2. Set your client identifier and client secret as environment variables
+2. Set your client identifier and client secret as environment variables, and market code such as SE.
 
 ```
 export REACT_APP_TINK_LINK_PERMANENT_USERS_CLIENT_ID='<YOUR_CLIENT_ID>'
 export REACT_APP_TINK_LINK_PERMANENT_USERS_CLIENT_SECRET='<YOUR_CLIENT_SECRET>'
+export REACT_APP_TINK_LINK_PERMANENT_USERS_MARKET='<MARKET_CODE>'
 ```
 
 3. Run client and server in terminal separately
