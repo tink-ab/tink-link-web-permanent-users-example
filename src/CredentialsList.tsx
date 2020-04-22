@@ -12,11 +12,11 @@ import { Header } from './Header';
 import { CheckIcon } from './images/CheckIcon';
 import { PrettyCode } from './PrettyCode';
 
-type RefreshCredentialsProps = {
+type CredentialsListProps = {
   userId: string;
 };
 
-export const RefreshCredentials: React.FC<RefreshCredentialsProps> = ({ userId }) => {
+export const CredentialsList: React.FC<CredentialsListProps> = ({ userId }) => {
   const [credentials, setCredentials] = useState<Credentials[] | undefined>(undefined);
   const [authorizationCode, setAuthorizationCode] = useState<AuthorizationCode | undefined>(
     undefined
@@ -25,7 +25,6 @@ export const RefreshCredentials: React.FC<RefreshCredentialsProps> = ({ userId }
   useEffect(() => {
     const getCredentials = async (userId: string) => {
       const credentialsResponse = await getUserCredentials(userId);
-      console.log('credentialsResponse: ', credentialsResponse);
       setCredentials(credentialsResponse.credentials);
     };
 

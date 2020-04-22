@@ -1,6 +1,6 @@
 import React from 'react';
 import { Error } from './Error';
-import { RefreshCredentials } from './RefreshCredentials';
+import { CredentialsList } from './CredentialsList';
 
 export const TinkLinkCallback = () => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -14,7 +14,7 @@ export const TinkLinkCallback = () => {
   }
 
   if (userId) {
-    return <RefreshCredentials userId={userId} />;
+    return <CredentialsList userId={userId} />;
   }
 
   return null;
