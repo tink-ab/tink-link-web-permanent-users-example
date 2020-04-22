@@ -1,7 +1,7 @@
-import React from "react";
-import { Header } from "./Header";
-import { CloseIcon } from "./images/CloseIcon";
-import { PrettyCode } from "./PrettyCode";
+import React from 'react';
+import { Header } from './Header';
+import { CloseIcon } from './images/CloseIcon';
+import { PrettyCode } from './PrettyCode';
 
 type ErrorProps = {
   error: string;

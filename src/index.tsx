@@ -1,10 +1,10 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import "./index.css";
-import { AddCredentials } from "./AddCredentials";
-import { TinkLinkCallback } from "./TinkLinkCallback";
+import './index.css';
+import { AddCredentials } from './AddCredentials';
+import { TinkLinkCallback } from './TinkLinkCallback';
 
 ReactDOM.render(
   <Router>
@@ -17,5 +17,5 @@ ReactDOM.render(
       </Route>
     </Switch>
   </Router>,
-  document.getElementById("root")
+  document.getElementById('root')
 );
