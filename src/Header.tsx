@@ -1,5 +1,5 @@
-import React from "react";
-import { Logo } from "./images/Logo";
+import React from 'react';
+import { Logo } from './images/Logo';
 
 export const Header = () => {
   return (
@@ -8,12 +8,7 @@ export const Header = () => {
         <Logo />
       </a>
 
-      <a
-        className="link"
-        href="https://docs.tink.com/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a className="link" href="https://docs.tink.com/" target="_blank" rel="noopener noreferrer">
         Visit the docs
       </a>
     </div>

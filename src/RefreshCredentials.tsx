@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   AuthorizationCode,
   getUserCredentials,
@@ -6,30 +6,26 @@ import {
   generateAuthorizationCode,
   Credentials,
   refreshCredentialsLink,
-  authenticateCredentialsLink
-} from "./api";
-import { Header } from "./Header";
-import { CheckIcon } from "./images/CheckIcon";
-import { PrettyCode } from "./PrettyCode";
+  authenticateCredentialsLink,
+} from './api';
+import { Header } from './Header';
+import { CheckIcon } from './images/CheckIcon';
+import { PrettyCode } from './PrettyCode';
 
 type RefreshCredentialsProps = {
   userId: string;
 };
 
-export const RefreshCredentials: React.FC<RefreshCredentialsProps> = ({
-  userId
-}) => {
-  const [credentials, setCredentials] = useState<Credentials[] | undefined>(
+export const RefreshCredentials: React.FC<RefreshCredentialsProps> = ({ userId }) => {
+  const [credentials, setCredentials] = useState<Credentials[] | undefined>(undefined);
+  const [authorizationCode, setAuthorizationCode] = useState<AuthorizationCode | undefined>(
     undefined
   );
-  const [authorizationCode, setAuthorizationCode] = useState<
-    AuthorizationCode | undefined
-  >(undefined);
 
   useEffect(() => {
     const getCredentials = async (userId: string) => {
       const credentialsResponse = await getUserCredentials(userId);
-      console.log("credentialsResponse: ", credentialsResponse);
+      console.log('credentialsResponse: ', credentialsResponse);
       setCredentials(credentialsResponse.credentials);
     };
 
@@ -56,17 +52,12 @@ export const RefreshCredentials: React.FC<RefreshCredentialsProps> = ({
               <CheckIcon />
             </div>
             <div className="ml-16 mr-40">
-              <div className="heading-2">
-                Credentials were successfully added to user!
-              </div>
+              <div className="heading-2">Credentials were successfully added to user!</div>
               {!credentials && <div>Fetching credentials ...</div>}
               {credentials &&
-                credentials.map(credential => (
+                credentials.map((credential) => (
                   <div key={credential.id}>
-                    <PrettyCode
-                      code={JSON.stringify(credential, null, 2)}
-                      className="mt-20"
-                    />
+                    <PrettyCode code={JSON.stringify(credential, null, 2)} className="mt-20" />
                     {authorizationCode && (
                       <>
                         <a
@@ -79,9 +70,9 @@ export const RefreshCredentials: React.FC<RefreshCredentialsProps> = ({
                         >
                           Refresh credentials
                         </a>
-                        {credential.providerName.includes("open-banking") && (
+                        {credential.providerName.includes('open-banking') && (
                           <a
-                            className={"button mt-24 ml-16"}
+                            className={'button mt-24 ml-16'}
                             href={authenticateCredentialsLink(
                               authorizationCode.code,
                               userId,
@@ -98,9 +89,7 @@ export const RefreshCredentials: React.FC<RefreshCredentialsProps> = ({
 
               {authorizationCode && (
                 <div>
-                  <div className="mt-40">
-                    Tink Link url to add additional credentials
-                  </div>
+                  <div className="mt-40">Tink Link url to add additional credentials</div>
                   <pre className="code break-word mt-16 text">
                     {getAddCredentialsLink(authorizationCode.code, userId)}
                   </pre>

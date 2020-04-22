@@ -1,14 +1,14 @@
-import React from "react";
-import { Error } from "./Error";
-import { RefreshCredentials } from "./RefreshCredentials";
+import React from 'react';
+import { Error } from './Error';
+import { RefreshCredentials } from './RefreshCredentials';
 
 export const TinkLinkCallback = () => {
   const urlParams = new URLSearchParams(window.location.search);
-  const error = urlParams.get("error");
-  const userId = urlParams.get("state");
+  const error = urlParams.get('error');
+  const userId = urlParams.get('state');
 
   if (error) {
-    const errorMessage = urlParams.get("message") || undefined;
+    const errorMessage = urlParams.get('message') || undefined;
 
     return <Error error={error} errorMessage={errorMessage} />;
   }
