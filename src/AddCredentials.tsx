@@ -90,9 +90,11 @@ export const AddCredentials: React.FC = () => {
               {authorizationCode && user && (
                 <>
                   <div>Generated Tink Link url to add credentials to user</div>
-                  <pre className="code break-word mt-20 text">
-                    {getAddCredentialsLink(authorizationCode.code, user.user_id)}
-                  </pre>
+                  <PrettyCode
+                    className="mt-20"
+                    highlightSyntax={false}
+                    code={getAddCredentialsLink(authorizationCode.code, user.user_id)}
+                  />
 
                   <a
                     className="button mt-20"

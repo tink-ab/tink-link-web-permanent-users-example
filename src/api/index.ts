@@ -64,6 +64,19 @@ export const getUserCredentials = async (userId: string): Promise<CredentialsRep
   return credentialsResponse.data;
 };
 
+export const getPaymentTransfers = async (paymentRequestId: string): Promise<any[]> => {
+  const reponse = await fetch(`/payments/${paymentRequestId}/transfers`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  const transfersResponse = await reponse.json();
+
+  return transfersResponse.data;
+};
+
 export const getAddCredentialsLink = (authorizationCode: string, userId: string) => {
   // Read more about Tink Link initialization parameters: https://docs.tink.com/api/#initialization-parameters
   const params = [

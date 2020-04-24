@@ -44,4 +44,12 @@ app.get('/user/:userId/credentials', async (req, res) => {
   res.json({ data: userCredentials });
 });
 
+app.get('/payments/:paymentRequestId/transfers', async (req, res) => {
+  const { paymentRequestId } = req.params;
+  const token = await api.fetchClientAccessToken();
+
+  const transfers = await api.getPaymentTransfers(token, paymentRequestId);
+  return res.json({ data: transfers });
+});
+
 app.listen(port, () => console.log(`Example app listening on port ${port}.`));

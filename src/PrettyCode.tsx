@@ -25,16 +25,19 @@ const syntaxHighlight = (json: string) => {
 
 type PrettyCodeProps = {
   code: string;
+  highlightSyntax?: boolean;
   className?: string;
 };
 
-export const PrettyCode = ({ code, className }: PrettyCodeProps) => {
+export const PrettyCode = ({ code, className, highlightSyntax = true }: PrettyCodeProps) => {
   return (
-    <pre
-      className={`code ${className || ''}`}
-      dangerouslySetInnerHTML={{
-        __html: syntaxHighlight(code),
-      }}
-    ></pre>
+    <div className={`code-wrapper ${className || ''}`}>
+      <pre
+        className="code"
+        dangerouslySetInnerHTML={{
+          __html: highlightSyntax ? syntaxHighlight(code) : code,
+        }}
+      ></pre>
+    </div>
   );
 };

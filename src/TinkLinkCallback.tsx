@@ -6,6 +6,7 @@ export const TinkLinkCallback = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const error = urlParams.get('error');
   const userId = urlParams.get('state');
+  const paymentRequestId = urlParams.get('payment_request_id');
 
   if (error) {
     const errorMessage = urlParams.get('message') || undefined;
@@ -14,7 +15,7 @@ export const TinkLinkCallback = () => {
   }
 
   if (userId) {
-    return <CredentialsList userId={userId} />;
+    return <CredentialsList userId={userId} paymentRequestId={paymentRequestId} />;
   }
 
   return null;

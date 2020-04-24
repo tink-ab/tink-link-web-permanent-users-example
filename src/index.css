@@ -66,13 +66,21 @@ code {
   justify-content: center;
 }
 
-.code {
+.code-wrapper {
+  max-width: 880px;
   background-color: #ebf0f1;
+  overflow-x: auto;
+}
+
+.code {
   padding: 12px 16px;
   border-radius: 6px;
   margin: 0;
-  white-space: pre-line;
   word-break: break-all;
+}
+
+.full-width {
+  width: 100%;
 }
 
 .display-flex {

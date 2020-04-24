@@ -8,6 +8,7 @@ import {
   refreshCredentialsLink,
   authenticateCredentialsLink,
   getPaymentLink,
+  getPaymentTransfers,
 } from './api';
 import { Header } from './Header';
 import { CheckIcon } from './images/CheckIcon';
@@ -17,10 +18,12 @@ const PERMANENT_PAYMENT_REQUEST_ID = process.env.REACT_APP_TINK_LINK_PERMANENT_P
 
 type CredentialsListProps = {
   userId: string;
+  paymentRequestId: string | null;
 };
 
-export const CredentialsList: React.FC<CredentialsListProps> = ({ userId }) => {
+export const CredentialsList: React.FC<CredentialsListProps> = ({ userId, paymentRequestId }) => {
   const [credentials, setCredentials] = useState<Credentials[] | undefined>(undefined);
+  const [transfers, setTransfers] = useState<any[] | undefined>(undefined);
   const [authorizationCode, setAuthorizationCode] = useState<AuthorizationCode | undefined>(
     undefined
   );
@@ -36,10 +39,17 @@ export const CredentialsList: React.FC<CredentialsListProps> = ({ userId }) => {
       setAuthorizationCode(authorizationCode);
     };
 
-    getAuthorizationCode(userId);
+    const getTransfers = async (paymentRequestId: string) => {
+      const transfers = await getPaymentTransfers(paymentRequestId);
+      setTransfers(transfers);
+    };
 
     getCredentials(userId);
-  }, [userId]);
+    getAuthorizationCode(userId);
+    if (paymentRequestId) {
+      getTransfers(paymentRequestId);
+    }
+  }, [userId, paymentRequestId]);
 
   const initiatePayment = async (credentialsId: string) => {
     if (authorizationCode && PERMANENT_PAYMENT_REQUEST_ID) {
@@ -66,7 +76,7 @@ export const CredentialsList: React.FC<CredentialsListProps> = ({ userId }) => {
             <div>
               <CheckIcon />
             </div>
-            <div className="ml-16 mr-40">
+            <div className="full-width ml-16 mr-40">
               <div className="heading-2">Credentials were successfully added to user!</div>
               {!credentials && <div>Fetching credentials ...</div>}
               {credentials &&
@@ -117,9 +127,11 @@ export const CredentialsList: React.FC<CredentialsListProps> = ({ userId }) => {
               {authorizationCode && (
                 <div>
                   <div className="mt-40">Tink Link url to add additional credentials</div>
-                  <pre className="code break-word mt-16 text">
-                    {getAddCredentialsLink(authorizationCode.code, userId)}
-                  </pre>
+                  <PrettyCode
+                    className="mt-20"
+                    highlightSyntax={false}
+                    code={getAddCredentialsLink(authorizationCode.code, userId)}
+                  />
 
                   <a
                     className="button mt-24 mb-40"
@@ -132,6 +144,20 @@ export const CredentialsList: React.FC<CredentialsListProps> = ({ userId }) => {
             </div>
           </div>
         </div>
+
+        {transfers && (
+          <div className="paper mt-20">
+            <div className="display-flex">
+              <div>
+                <CheckIcon />
+              </div>
+              <div className="full-width ml-16 mr-40">
+                <div className="heading-2">Created transfers</div>
+                <PrettyCode code={JSON.stringify(transfers, null, ' ')} className="mt-20" />
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className="walking-hand my-auto mt-120 mb-80"></div>
       </div>

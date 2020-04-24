@@ -18,7 +18,7 @@ const fetchClientAccessToken = async () => {
   const scopes = [
     'authorization:grant,user:read,user:create', // needed for creating permanent users
     'credentials:read', // needed for fetching user credentials
-    'payment:read,payment:write', // needed for creating payment requests
+    'payment:read', // needed for fetching payment request transfers
   ].join(',');
 
   const clientAccessTokenResponse = await fetch(`${API_URL}/api/v1/oauth/token`, {
@@ -123,6 +123,21 @@ const getUserCredentials = async (userAccessToken) => {
   return userCredentials;
 };
 
+const getPaymentTransfers = async (clientAccessToken, requestId) => {
+  const response = await fetch(`${API_URL}/api/v1/payments/requests/${requestId}/transfers`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${clientAccessToken}`,
+      'Content-Type': 'application/json;',
+    },
+  });
+
+  const transferResponse = await response.json();
+  log('Fetch transfer status response', transferResponse);
+
+  return transferResponse;
+};
+
 module.exports = {
   fetchClientAccessToken,
   createPermanentUser,
@@ -130,4 +145,5 @@ module.exports = {
   getUserGrantAuthorizationCode,
   fetchUserAccessToken,
   getUserCredentials,
+  getPaymentTransfers,
 };
