@@ -80,6 +80,29 @@ export const getAddCredentialsLink = (authorizationCode: string, userId: string)
   return `${TINK_LINK_URL}/1.0/credentials/add?${params.join('&')}`;
 };
 
+export const getPaymentLink = (
+  authorizationCode: string,
+  credentialsId: string,
+  userId: string,
+  paymentRequestId: string
+) => {
+  // Read more about Tink Link initialization parameters: https://docs.tink.com/api/#initialization-parameters
+  const params = [
+    `client_id=${process.env.REACT_APP_TINK_LINK_PERMANENT_USERS_CLIENT_ID}`,
+    'redirect_uri=http://localhost:3000/callback',
+    'scope=user:read,credentials:read',
+    `market=${process.env.REACT_APP_TINK_LINK_PERMANENT_USERS_MARKET}`,
+    'locale=en_US',
+    `state=${userId}`,
+    `authorization_code=${authorizationCode}`,
+    `payment_request_id=${paymentRequestId}`,
+    `credentials_id=${credentialsId}`,
+    'test=true', // Change this to `false` if you want to see real banks instead of test providers.
+  ];
+
+  return `${TINK_LINK_URL}/1.0/pay/credentials?${params.join('&')}`;
+};
+
 export const refreshCredentialsLink = (
   authorizationCode: string,
   userId: string,

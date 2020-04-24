@@ -7,10 +7,13 @@ import {
   Credentials,
   refreshCredentialsLink,
   authenticateCredentialsLink,
+  getPaymentLink,
 } from './api';
 import { Header } from './Header';
 import { CheckIcon } from './images/CheckIcon';
 import { PrettyCode } from './PrettyCode';
+
+const PERMANENT_PAYMENT_REQUEST_ID = process.env.REACT_APP_TINK_LINK_PERMANENT_PAYMENT_REQUEST_ID;
 
 type CredentialsListProps = {
   userId: string;
@@ -37,6 +40,19 @@ export const CredentialsList: React.FC<CredentialsListProps> = ({ userId }) => {
 
     getCredentials(userId);
   }, [userId]);
+
+  const initiatePayment = async (credentialsId: string) => {
+    if (authorizationCode && PERMANENT_PAYMENT_REQUEST_ID) {
+      const tinkLinkUrl = getPaymentLink(
+        authorizationCode.code,
+        credentialsId,
+        userId,
+        PERMANENT_PAYMENT_REQUEST_ID
+      );
+
+      window.location.href = tinkLinkUrl;
+    }
+  };
 
   return (
     <>
@@ -71,7 +87,7 @@ export const CredentialsList: React.FC<CredentialsListProps> = ({ userId }) => {
                         </a>
                         {credential.providerName.includes('open-banking') && (
                           <a
-                            className={'button mt-24 ml-16'}
+                            className="button mt-24 ml-16"
                             href={authenticateCredentialsLink(
                               authorizationCode.code,
                               userId,
@@ -80,6 +96,18 @@ export const CredentialsList: React.FC<CredentialsListProps> = ({ userId }) => {
                           >
                             Authenticate PSD2 credentials
                           </a>
+                        )}
+
+                        {PERMANENT_PAYMENT_REQUEST_ID && (
+                          <button
+                            type="button"
+                            className="button mt-24 ml-16"
+                            onClick={() => {
+                              initiatePayment(credential.id);
+                            }}
+                          >
+                            Initiate payment
+                          </button>
                         )}
                       </>
                     )}
