@@ -17,11 +17,7 @@ export const createPermanentUser = async (): Promise<User> => {
   return permanentUserResponse.data;
 };
 
-export type AuthorizationCode = {
-  code: string;
-};
-
-export const generateAuthorizationCode = async (userId: string): Promise<AuthorizationCode> => {
+export const generateAuthorizationCode = async (userId: string): Promise<string> => {
   const response = await fetch('/authorization-code', {
     method: 'POST',
     body: JSON.stringify({ user_id: userId }),
@@ -32,7 +28,7 @@ export const generateAuthorizationCode = async (userId: string): Promise<Authori
 
   const authorizationCodeResponse = await response.json();
 
-  return authorizationCodeResponse.data;
+  return authorizationCodeResponse.data.code;
 };
 
 type CredentialsReponse = {
@@ -64,7 +60,21 @@ export const getUserCredentials = async (userId: string): Promise<CredentialsRep
   return credentialsResponse.data;
 };
 
-export const getPaymentTransfers = async (paymentRequestId: string): Promise<any[]> => {
+export type Transfer = {
+  amount: number;
+  created: number;
+  currency: string;
+  market: string;
+  providerName: string;
+  recipientName: string;
+  sourceMessage: null;
+  status: string;
+  statusMessage: string;
+  updated: number;
+  destination: { accountNumber: string; type: string; reference: string };
+};
+
+export const getPaymentTransfers = async (paymentRequestId: string): Promise<Transfer[]> => {
   const reponse = await fetch(`/payments/${paymentRequestId}/transfers`, {
     method: 'GET',
     headers: {
