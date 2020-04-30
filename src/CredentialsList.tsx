@@ -1,26 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import {
-  AuthorizationCode,
   getUserCredentials,
   getAddCredentialsLink,
   generateAuthorizationCode,
   Credentials,
   refreshCredentialsLink,
   authenticateCredentialsLink,
+  getPaymentTransfers,
+  Transfer,
 } from './api';
 import { Header } from './Header';
 import { CheckIcon } from './images/CheckIcon';
 import { PrettyCode } from './PrettyCode';
+import { InitiatePaymentButton, TransfersList } from './Payments';
 
 type CredentialsListProps = {
   userId: string;
+  paymentRequestId: string | null;
 };
 
-export const CredentialsList: React.FC<CredentialsListProps> = ({ userId }) => {
+export const CredentialsList: React.FC<CredentialsListProps> = ({ userId, paymentRequestId }) => {
   const [credentials, setCredentials] = useState<Credentials[] | undefined>(undefined);
-  const [authorizationCode, setAuthorizationCode] = useState<AuthorizationCode | undefined>(
-    undefined
-  );
+  const [transfers, setTransfers] = useState<Transfer[] | undefined>(undefined);
+  const [authorizationCode, setAuthorizationCode] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     const getCredentials = async (userId: string) => {
@@ -33,10 +35,17 @@ export const CredentialsList: React.FC<CredentialsListProps> = ({ userId }) => {
       setAuthorizationCode(authorizationCode);
     };
 
-    getAuthorizationCode(userId);
+    const getTransfers = async (paymentRequestId: string) => {
+      const transfers = await getPaymentTransfers(paymentRequestId);
+      setTransfers(transfers);
+    };
 
     getCredentials(userId);
-  }, [userId]);
+    getAuthorizationCode(userId);
+    if (paymentRequestId) {
+      getTransfers(paymentRequestId);
+    }
+  }, [userId, paymentRequestId]);
 
   return (
     <>
@@ -50,7 +59,7 @@ export const CredentialsList: React.FC<CredentialsListProps> = ({ userId }) => {
             <div>
               <CheckIcon />
             </div>
-            <div className="ml-16 mr-40">
+            <div className="full-width ml-16 mr-40">
               <div className="heading-2">Credentials were successfully added to user!</div>
               {!credentials && <div>Fetching credentials ...</div>}
               {credentials &&
@@ -61,19 +70,15 @@ export const CredentialsList: React.FC<CredentialsListProps> = ({ userId }) => {
                       <>
                         <a
                           className="button mt-24"
-                          href={refreshCredentialsLink(
-                            authorizationCode.code,
-                            userId,
-                            credential.id
-                          )}
+                          href={refreshCredentialsLink(authorizationCode, userId, credential.id)}
                         >
                           Refresh credentials
                         </a>
                         {credential.providerName.includes('open-banking') && (
                           <a
-                            className={'button mt-24 ml-16'}
+                            className="button mt-24 ml-16"
                             href={authenticateCredentialsLink(
-                              authorizationCode.code,
+                              authorizationCode,
                               userId,
                               credential.id
                             )}
@@ -81,6 +86,12 @@ export const CredentialsList: React.FC<CredentialsListProps> = ({ userId }) => {
                             Authenticate PSD2 credentials
                           </a>
                         )}
+
+                        <InitiatePaymentButton
+                          userId={userId}
+                          credentialsId={credential.id}
+                          authorizationCode={authorizationCode}
+                        />
                       </>
                     )}
                   </div>
@@ -89,13 +100,15 @@ export const CredentialsList: React.FC<CredentialsListProps> = ({ userId }) => {
               {authorizationCode && (
                 <div>
                   <div className="mt-40">Tink Link url to add additional credentials</div>
-                  <pre className="code break-word mt-16 text">
-                    {getAddCredentialsLink(authorizationCode.code, userId)}
-                  </pre>
+                  <PrettyCode
+                    className="mt-20"
+                    highlightSyntax={false}
+                    code={getAddCredentialsLink(authorizationCode, userId)}
+                  />
 
                   <a
                     className="button mt-24 mb-40"
-                    href={getAddCredentialsLink(authorizationCode.code, userId)}
+                    href={getAddCredentialsLink(authorizationCode, userId)}
                   >
                     Add another credentials to this user
                   </a>
@@ -104,6 +117,8 @@ export const CredentialsList: React.FC<CredentialsListProps> = ({ userId }) => {
             </div>
           </div>
         </div>
+
+        <TransfersList transfers={transfers} />
 
         <div className="walking-hand my-auto mt-120 mb-80"></div>
       </div>

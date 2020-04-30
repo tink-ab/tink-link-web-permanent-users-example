@@ -1,11 +1,5 @@
 import React, { useState } from 'react';
-import {
-  User,
-  AuthorizationCode,
-  createPermanentUser,
-  getAddCredentialsLink,
-  generateAuthorizationCode,
-} from './api';
+import { User, createPermanentUser, getAddCredentialsLink, generateAuthorizationCode } from './api';
 import { CheckIcon } from './images/CheckIcon';
 import { Header } from './Header';
 import { PrettyCode } from './PrettyCode';
@@ -13,9 +7,7 @@ import { PrettyCode } from './PrettyCode';
 export const AddCredentials: React.FC = () => {
   const [user, setUser] = useState<User | undefined>(undefined);
 
-  const [authorizationCode, setAuthorizationCode] = useState<AuthorizationCode | undefined>(
-    undefined
-  );
+  const [authorizationCode, setAuthorizationCode] = useState<string | undefined>(undefined);
 
   const getUser = async () => {
     const user = await createPermanentUser();
@@ -90,13 +82,15 @@ export const AddCredentials: React.FC = () => {
               {authorizationCode && user && (
                 <>
                   <div>Generated Tink Link url to add credentials to user</div>
-                  <pre className="code break-word mt-20 text">
-                    {getAddCredentialsLink(authorizationCode.code, user.user_id)}
-                  </pre>
+                  <PrettyCode
+                    className="mt-20"
+                    highlightSyntax={false}
+                    code={getAddCredentialsLink(authorizationCode, user.user_id)}
+                  />
 
                   <a
                     className="button mt-20"
-                    href={getAddCredentialsLink(authorizationCode.code, user.user_id)}
+                    href={getAddCredentialsLink(authorizationCode, user.user_id)}
                   >
                     Open Tink Link
                   </a>
