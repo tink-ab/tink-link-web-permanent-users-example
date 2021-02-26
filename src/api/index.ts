@@ -31,7 +31,7 @@ export const generateAuthorizationCode = async (userId: string): Promise<string>
   return authorizationCodeResponse.data.code;
 };
 
-type CredentialsReponse = {
+type CredentialsResponse = {
   credentials: Credentials[];
 };
 
@@ -47,15 +47,15 @@ export type Credentials = {
   userId: string;
 };
 
-export const getUserCredentials = async (userId: string): Promise<CredentialsReponse> => {
-  const reponse = await fetch(`/user/${userId}/credentials`, {
+export const getUserCredentials = async (userId: string): Promise<CredentialsResponse> => {
+  const response = await fetch(`/user/${userId}/credentials`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
   });
 
-  const credentialsResponse = await reponse.json();
+  const credentialsResponse = await response.json();
 
   return credentialsResponse.data;
 };
@@ -75,14 +75,14 @@ export type Transfer = {
 };
 
 export const getPaymentTransfers = async (paymentRequestId: string): Promise<Transfer[]> => {
-  const reponse = await fetch(`/payments/${paymentRequestId}/transfers`, {
+  const response = await fetch(`/payments/${paymentRequestId}/transfers`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
   });
 
-  const transfersResponse = await reponse.json();
+  const transfersResponse = await response.json();
 
   return transfersResponse.data;
 };
