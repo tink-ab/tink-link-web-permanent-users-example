@@ -1,4 +1,5 @@
 const TINK_LINK_URL = 'https://link.tink.com';
+const TEST = true;
 
 export type User = {
   user_id: string;
