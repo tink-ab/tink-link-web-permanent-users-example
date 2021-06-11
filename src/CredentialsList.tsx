@@ -8,6 +8,7 @@ import {
   authenticateCredentialsLink,
   getPaymentTransfers,
   Transfer,
+  getUpdateConsentLink,
 } from './api';
 import { Header } from './Header';
 import { CheckIcon } from './images/CheckIcon';
@@ -74,23 +75,28 @@ export const CredentialsList: React.FC<CredentialsListProps> = ({ userId, paymen
                         >
                           Refresh credentials
                         </a>
-                        {credential.providerName.includes('open-banking') && (
-                          <a
-                            className="button mt-24 ml-16"
-                            href={authenticateCredentialsLink(
-                              authorizationCode,
-                              userId,
-                              credential.id
-                            )}
-                          >
-                            Authenticate PSD2 credentials
-                          </a>
-                        )}
+                        <a
+                          className="button mt-24 ml-16"
+                          href={authenticateCredentialsLink(
+                            authorizationCode,
+                            userId,
+                            credential.id
+                          )}
+                        >
+                          Authenticate PSD2 credentials
+                        </a>
 
                         <InitiatePaymentButton
                           userId={userId}
                           credentialsId={credential.id}
                           authorizationCode={authorizationCode}
+                        />
+
+                        <div className="mt-40">Update consent</div>
+                        <PrettyCode
+                          className="mt-20"
+                          highlightSyntax={false}
+                          code={getUpdateConsentLink(authorizationCode, userId, credential.id)}
                         />
                       </>
                     )}
@@ -99,7 +105,7 @@ export const CredentialsList: React.FC<CredentialsListProps> = ({ userId, paymen
 
               {authorizationCode && (
                 <div>
-                  <div className="mt-40">Tink Link url to add additional credentials</div>
+                  <div className="mt-40">Add credentials</div>
                   <PrettyCode
                     className="mt-20"
                     highlightSyntax={false}
@@ -110,7 +116,7 @@ export const CredentialsList: React.FC<CredentialsListProps> = ({ userId, paymen
                     className="button mt-24 mb-40"
                     href={getAddCredentialsLink(authorizationCode, userId)}
                   >
-                    Add another credentials to this user
+                    Add credentials
                   </a>
                 </div>
               )}
