@@ -16,31 +16,32 @@ export const InitiatePaymentButton: React.FC<InitiatePaymentButtonProps> = ({
   credentialsId,
   authorizationCode,
 }) => {
-  const initiatePayment = async (credentialsId: string) => {
+  const initiatePayment = (credentialsId: string) => {
     if (authorizationCode && PERMANENT_PAYMENT_REQUEST_ID) {
-      const tinkLinkUrl = getPaymentLink(
-        authorizationCode,
-        credentialsId,
-        userId,
-        PERMANENT_PAYMENT_REQUEST_ID
-      );
-
-      window.location.href = tinkLinkUrl;
+      return getPaymentLink(authorizationCode, credentialsId, userId, PERMANENT_PAYMENT_REQUEST_ID);
     }
   };
 
   return (
     <>
       {PERMANENT_PAYMENT_REQUEST_ID && (
-        <button
-          type="button"
-          className="button mt-24 ml-16"
-          onClick={() => {
-            initiatePayment(credentialsId);
-          }}
-        >
-          Initiate payment
-        </button>
+        <>
+          <a className="button mt-24 ml-16" href={initiatePayment(credentialsId)}>
+            Initiate payment
+          </a>
+
+          <div className="mt-40">Initiate payment</div>
+          <PrettyCode
+            className="mt-20"
+            highlightSyntax={false}
+            code={`${getPaymentLink(
+              authorizationCode,
+              credentialsId,
+              userId,
+              PERMANENT_PAYMENT_REQUEST_ID
+            )}&session_id=`}
+          />
+        </>
       )}
     </>
   );
