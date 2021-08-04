@@ -1,5 +1,11 @@
-import React, { useState } from 'react';
-import { User, createPermanentUser, getAddCredentialsLink, generateAuthorizationCode } from './api';
+import React, { useEffect, useState } from 'react';
+import {
+  User,
+  createPermanentUser,
+  getAddCredentialsLink,
+  generateAuthorizationCode,
+  getTransactionsLink,
+} from './api';
 import { CheckIcon } from './images/CheckIcon';
 import { Header } from './Header';
 import { PrettyCode } from './PrettyCode';
@@ -18,6 +24,16 @@ export const AddCredentials: React.FC = () => {
     const authorizationCode = await generateAuthorizationCode(userId);
     setAuthorizationCode(authorizationCode);
   };
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  useEffect(() => {
+    if (user) {
+      getAuthorizationCode(user.user_id);
+    }
+  }, [user]);
 
   return (
     <>
@@ -81,19 +97,19 @@ export const AddCredentials: React.FC = () => {
               <div className="heading-2">Open Tink Link</div>
               {authorizationCode && user && (
                 <>
-                  <div>Generated Tink Link url to add credentials to user</div>
+                  <div>Account Aggregation: Add Credentials</div>
                   <PrettyCode
                     className="mt-20"
                     highlightSyntax={false}
                     code={getAddCredentialsLink(authorizationCode, user.user_id)}
                   />
-
-                  <a
-                    className="button mt-20"
-                    href={getAddCredentialsLink(authorizationCode, user.user_id)}
-                  >
-                    Open Tink Link
-                  </a>
+                  <br /> <br />
+                  <div>Transactions: Connect Accounts</div>
+                  <PrettyCode
+                    className="mt-20"
+                    highlightSyntax={false}
+                    code={getTransactionsLink(authorizationCode, user.user_id)}
+                  />
                 </>
               )}
             </div>
