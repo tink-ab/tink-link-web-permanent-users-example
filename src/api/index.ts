@@ -1,9 +1,15 @@
-const TINK_LINK_URL = 'https://link.tink.com';
-const TEST = true;
+import { env } from '../env';
 
 export type User = {
   user_id: string;
 };
+
+const baseParams = [
+  `client_id=${env.clientId}`,
+  'redirect_uri=http://localhost:3000/callback',
+  'locale=en_US',
+  `test=true`,
+]
 
 export const createPermanentUser = async (): Promise<User> => {
   const response = await fetch('/permanent-user', {
@@ -11,6 +17,7 @@ export const createPermanentUser = async (): Promise<User> => {
     headers: {
       'Content-Type': 'application/json',
     },
+    body: JSON.stringify({ market: env.market })
   });
 
   const permanentUserResponse = await response.json();
@@ -90,17 +97,14 @@ export const getPaymentTransfers = async (paymentRequestId: string): Promise<Tra
 
 export const getAddCredentialsLink = (authorizationCode: string, userId: string) => {
   const params = [
-    `client_id=${process.env.REACT_APP_TINK_LINK_PERMANENT_USERS_CLIENT_ID}`,
-    'redirect_uri=http://localhost:3000/callback',
+    ...baseParams,
     'scope=user:read,credentials:read',
-    `market=${process.env.REACT_APP_TINK_LINK_PERMANENT_USERS_MARKET}`,
-    'locale=en_US',
+    `market=${env.market}`,
     `state=${userId}`,
     `authorization_code=${authorizationCode}`,
-    `test=${TEST}`,
   ];
 
-  return `${TINK_LINK_URL}/1.0/credentials/add?${params.join('&')}`;
+  return `${env.tinkLinkUrl}/1.0/credentials/add?${params.join('&')}`;
 };
 
 export const getUpdateConsentLink = (
@@ -109,33 +113,27 @@ export const getUpdateConsentLink = (
   credentialsId: string
 ) => {
   const params = [
-    `client_id=${process.env.REACT_APP_TINK_LINK_PERMANENT_USERS_CLIENT_ID}`,
-    'redirect_uri=http://localhost:3000/callback',
-    'locale=en_US',
+    ...baseParams,
     `state=${userId}`,
     `credentials_id=${credentialsId}`,
     `authorization_code=${authorizationCode}`,
-    `test=${TEST}`,
   ];
 
-  return `${TINK_LINK_URL}/1.0/transactions/update-consent?${params.join('&')}`;
+  return `${env.tinkLinkUrl}/1.0/transactions/update-consent?${params.join('&')}`;
 };
 
 export const getTransactionsLink = (authorizationCode: string, userId: string) => {
   // Read more about Tink Link initialization parameters: https://docs.tink.com/api/#initialization-parameters
   const params = [
-    `client_id=${process.env.REACT_APP_TINK_LINK_PERMANENT_USERS_CLIENT_ID}`,
-    'redirect_uri=http://localhost:3000/callback',
+    ...baseParams,
     'scope=user:read,credentials:read',
-    `market=${process.env.REACT_APP_TINK_LINK_PERMANENT_USERS_MARKET}`,
-    'locale=en_US',
+    `market=${env.market}`,
     `state=${userId}`,
     `authorization_code=${authorizationCode}`,
-    `test=${TEST}`,
     `refreshable_items=CHECKING_ACCOUNTS,CHECKING_TRANSACTIONS`,
   ];
 
-  return `${TINK_LINK_URL}/1.0/transactions/connect-accounts?${params.join('&')}`;
+  return `${env.tinkLinkUrl}/1.0/transactions/connect-accounts?${params.join('&')}`;
 };
 
 export const getPaymentLink = (
@@ -145,16 +143,13 @@ export const getPaymentLink = (
   paymentRequestId: string
 ) => {
   const params = [
-    `client_id=${process.env.REACT_APP_TINK_LINK_PERMANENT_USERS_CLIENT_ID}`,
-    'redirect_uri=http://localhost:3000/callback',
+    ...baseParams,
     'scope=user:read,credentials:read',
-    `market=${process.env.REACT_APP_TINK_LINK_PERMANENT_USERS_MARKET}`,
-    'locale=en_US',
+    `market=${env.market}`,
     `state=${userId}`,
     `authorization_code=${authorizationCode}`,
     `payment_request_id=${paymentRequestId}`,
     `credentials_id=${credentialsId}`,
-    `test=${TEST}`,
   ];
 
   const sessionId = '';
@@ -162,7 +157,7 @@ export const getPaymentLink = (
     params.push(`session_id=${sessionId}`);
   }
 
-  return `${TINK_LINK_URL}/1.0/pay/credentials?${params.join('&')}`;
+  return `${env.tinkLinkUrl}/1.0/pay/credentials?${params.join('&')}`;
 };
 
 export const refreshCredentialsLink = (
@@ -171,19 +166,16 @@ export const refreshCredentialsLink = (
   credentialsId: string
 ) => {
   const params = [
-    `client_id=${process.env.REACT_APP_TINK_LINK_PERMANENT_USERS_CLIENT_ID}`,
-    'redirect_uri=http://localhost:3000/callback',
+    ...baseParams,
     'scope=user:read,credentials:read',
-    `market=${process.env.REACT_APP_TINK_LINK_PERMANENT_USERS_MARKET}`,
-    'locale=en_US',
+    `market=${env.market}`,
     `state=${userId}`,
     `authorization_code=${authorizationCode}`,
     `credentials_id=${credentialsId}`,
     'authenticate=false',
-    `test=${TEST}`,
   ];
 
-  return `${TINK_LINK_URL}/1.0/credentials/refresh?${params.join('&')}`;
+  return `${env.tinkLinkUrl}/1.0/credentials/refresh?${params.join('&')}`;
 };
 
 export const authenticateCredentialsLink = (
@@ -193,16 +185,13 @@ export const authenticateCredentialsLink = (
 ) => {
   // Read more about Tink Link initialization parameters: https://docs.tink.com/api/#initialization-parameters
   const params = [
-    `client_id=${process.env.REACT_APP_TINK_LINK_PERMANENT_USERS_CLIENT_ID}`,
-    'redirect_uri=http://localhost:3000/callback',
+    ...baseParams,
     'scope=user:read,credentials:read',
-    `market=${process.env.REACT_APP_TINK_LINK_PERMANENT_USERS_MARKET}`,
-    'locale=en_US',
+    `market=${env.market}`,
     `state=${userId}`,
     `authorization_code=${authorizationCode}`,
     `credentials_id=${credentialsId}`,
-    `test=${TEST}`,
   ];
 
-  return `${TINK_LINK_URL}/1.0/credentials/authenticate?${params.join('&')}`;
+  return `${env.tinkLinkUrl}/1.0/credentials/authenticate?${params.join('&')}`;
 };
