@@ -2,7 +2,6 @@ const fetch = require('node-fetch');
 
 const CLIENT_ID = process.env.REACT_APP_TINK_LINK_PERMANENT_USERS_CLIENT_ID;
 const CLIENT_SECRET = process.env.TINK_LINK_PERMANENT_USERS_CLIENT_SECRET;
-const MARKET = process.env.REACT_APP_TINK_LINK_PERMANENT_USERS_MARKET;
 const DELEGATED_TINK_LINK_CLIENT_ID = process.env.TINK_LINK_PERMANENT_USERS_DELEGATED_CLIENT_ID || 'df05e4b379934cd09963197cc855bfe9';
 const API_URL = process.env.TINK_API_URL|| 'https://api.tink.com';
 
@@ -35,14 +34,14 @@ const fetchClientAccessToken = async () => {
   return token.access_token;
 };
 
-const createPermanentUser = async (clientAccessToken) => {
+const createPermanentUser = async (clientAccessToken, market) => {
   const userResponse = await fetch(`${API_URL}/api/v1/user/create`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${clientAccessToken}`,
       'Content-Type': 'application/json; charset=utf-8',
     },
-    body: `{"locale":"en_US","market":"${MARKET}"}`,
+    body: `{"locale":"en_US","market":"${market}"}`,
   });
 
   const user = await userResponse.json();

@@ -21,8 +21,13 @@ if (!process.env.TINK_LINK_PERMANENT_USERS_CLIENT_SECRET) {
 }
 
 app.post('/permanent-user', async (req, res) => {
+  if (!req.body.market) {
+    res.status(400).json({ message: 'Market is required'});
+    return;
+  }
+
   const token = await api.fetchClientAccessToken();
-  const permanentUser = await api.createPermanentUser(token);
+  const permanentUser = await api.createPermanentUser(token, req.body.market);
 
   res.json({ data: permanentUser });
 });
