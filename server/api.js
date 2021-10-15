@@ -1,8 +1,8 @@
 const fetch = require('node-fetch');
 
-const CLIENT_ID = process.env.REACT_APP_TINK_LINK_PERMANENT_USERS_CLIENT_ID;
-const CLIENT_SECRET = process.env.TINK_LINK_PERMANENT_USERS_CLIENT_SECRET;
-const DELEGATED_TINK_LINK_CLIENT_ID = process.env.TINK_LINK_PERMANENT_USERS_DELEGATED_CLIENT_ID || 'df05e4b379934cd09963197cc855bfe9';
+const CLIENT_ID = process.env.REACT_APP_TINK_CLIENT_ID;
+const CLIENT_SECRET = process.env.TINK_CLIENT_SECRET;
+const DELEGATED_TINK_LINK_CLIENT_ID = process.env.TINK_DELEGATED_CLIENT_ID || 'df05e4b379934cd09963197cc855bfe9';
 const API_URL = process.env.TINK_API_URL|| 'https://api.tink.com';
 
 const log = function (...args) {

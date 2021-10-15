@@ -8,13 +8,13 @@ const port = 8080;
 
 app.use(bodyParser.json());
 
-if (!process.env.REACT_APP_TINK_LINK_PERMANENT_USERS_CLIENT_ID) {
-  throw Error('Environment variable `REACT_APP_TINK_LINK_PERMANENT_USERS_CLIENT_ID` is not set.');
+if (!process.env.REACT_APP_TINK_CLIENT_ID) {
+  throw Error('Environment variable `REACT_APP_TINK_CLIENT_ID` is not set.');
 }
 
-if (!process.env.TINK_LINK_PERMANENT_USERS_CLIENT_SECRET) {
+if (!process.env.TINK_CLIENT_SECRET) {
   throw Error(
-    'Environment variable `TINK_LINK_PERMANENT_USERS_CLIENT_SECRET` is not set.'
+    'Environment variable `TINK_CLIENT_SECRET` is not set.'
   );
 }
 
