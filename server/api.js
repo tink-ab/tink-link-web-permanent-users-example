@@ -12,6 +12,17 @@ const log = function (...args) {
   console.log('\n\n');
 };
 
+(function logEnv() {
+  console.table([
+    { name: 'NODE_ENV', value: process.env.NODE_ENV},
+    { name: 'CLIENT_ID', value: CLIENT_ID},
+    { name: 'CLIENT_SECRET', value: CLIENT_SECRET},
+    { name: 'DELEGATED_TINK_LINK_CLIENT_ID', value: DELEGATED_TINK_LINK_CLIENT_ID},
+    { name: 'API_URL', value: API_URL},
+  ]);
+})();
+
+
 const fetchClientAccessToken = async () => {
   const scopes = [
     'authorization:grant,user:read,user:create', // needed for creating permanent users
