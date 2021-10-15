@@ -130,7 +130,6 @@ export const getTransactionsLink = (authorizationCode: string, userId: string) =
     `market=${env.market}`,
     `state=${userId}`,
     `authorization_code=${authorizationCode}`,
-    `refreshable_items=CHECKING_ACCOUNTS,CHECKING_TRANSACTIONS`,
   ];
 
   return `${env.tinkLinkUrl}/1.0/transactions/connect-accounts?${params.join('&')}`;
