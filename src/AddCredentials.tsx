@@ -93,23 +93,18 @@ export const AddCredentials: React.FC = () => {
             <div>
               <div className="step">3</div>
             </div>
-            <div className="ml-16">
+            <div className="ml-16 full-width">
               <div className="heading-2">Open Tink Link</div>
               {authorizationCode && user && (
                 <>
                   <div>Account Aggregation: Add Credentials</div>
-                  <PrettyCode
-                    className="mt-20"
-                    highlightSyntax={false}
-                    code={getAddCredentialsLink(authorizationCode, user.user_id)}
-                  />
-                  <br /> <br />
+                  <textarea rows={5} readOnly className="mt-20 mb-40">
+                    {getAddCredentialsLink(authorizationCode, user.user_id)}
+                  </textarea>
                   <div>Transactions: Connect Accounts</div>
-                  <PrettyCode
-                    className="mt-20"
-                    highlightSyntax={false}
-                    code={getTransactionsLink(authorizationCode, user.user_id)}
-                  />
+                  <textarea rows={5} readOnly className="mt-20">
+                    {getTransactionsLink(authorizationCode, user.user_id)}
+                  </textarea>
                 </>
               )}
             </div>

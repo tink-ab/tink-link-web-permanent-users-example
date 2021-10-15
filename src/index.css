@@ -2,6 +2,10 @@
   --primary: #427783;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 html,
 body {
   height: 100%;
@@ -77,6 +81,16 @@ code {
   border-radius: 6px;
   margin: 0;
   word-break: break-all;
+}
+
+textarea[readonly] {
+  background-color: #ebf0f1;
+  font-size: inherit;
+  padding: 12px 16px;
+  border-radius: 6px;
+  width: 100%;
+  resize: none;
+  border: none;
 }
 
 .full-width {
