@@ -1,11 +1,9 @@
 const fetch = require('node-fetch');
 
-const CLIENT_ID = process.env.REACT_APP_TINK_LINK_PERMANENT_USERS_CLIENT_ID;
-const CLIENT_SECRET = process.env.TINK_LINK_PERMANENT_USERS_CLIENT_SECRET;
-const MARKET = process.env.REACT_APP_TINK_LINK_PERMANENT_USERS_MARKET;
-
-const DELEGATED_TINK_LINK_CLIENT_ID = 'df05e4b379934cd09963197cc855bfe9';
-const API_URL = 'https://api.tink.com';
+const CLIENT_ID = process.env.REACT_APP_TINK_CLIENT_ID;
+const CLIENT_SECRET = process.env.TINK_CLIENT_SECRET;
+const DELEGATED_TINK_LINK_CLIENT_ID = process.env.TINK_DELEGATED_CLIENT_ID || 'df05e4b379934cd09963197cc855bfe9';
+const API_URL = process.env.TINK_API_URL|| 'https://api.tink.com';
 
 const log = function (...args) {
   args.forEach((arg) => {
@@ -13,6 +11,17 @@ const log = function (...args) {
   });
   console.log('\n\n');
 };
+
+(function logEnv() {
+  console.table([
+    { name: 'NODE_ENV', value: process.env.NODE_ENV},
+    { name: 'CLIENT_ID', value: CLIENT_ID},
+    { name: 'CLIENT_SECRET', value: CLIENT_SECRET},
+    { name: 'DELEGATED_TINK_LINK_CLIENT_ID', value: DELEGATED_TINK_LINK_CLIENT_ID},
+    { name: 'API_URL', value: API_URL},
+  ]);
+})();
+
 
 const fetchClientAccessToken = async () => {
   const scopes = [
@@ -36,14 +45,14 @@ const fetchClientAccessToken = async () => {
   return token.access_token;
 };
 
-const createPermanentUser = async (clientAccessToken) => {
+const createPermanentUser = async (clientAccessToken, market) => {
   const userResponse = await fetch(`${API_URL}/api/v1/user/create`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${clientAccessToken}`,
       'Content-Type': 'application/json; charset=utf-8',
     },
-    body: `{"locale":"en_US","market":"${MARKET}"}`,
+    body: `{"locale":"en_US","market":"${market}"}`,
   });
 
   const user = await userResponse.json();

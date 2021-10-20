@@ -2,8 +2,9 @@ import React from 'react';
 import { getPaymentLink, Transfer } from './api';
 import { CheckIcon } from './images/CheckIcon';
 import { PrettyCode } from './PrettyCode';
+import { env } from './env';
 
-const PERMANENT_PAYMENT_REQUEST_ID = process.env.REACT_APP_TINK_LINK_PERMANENT_PAYMENT_REQUEST_ID;
+const PERMANENT_PAYMENT_REQUEST_ID = env.paymentRequestId;
 
 type InitiatePaymentButtonProps = {
   userId: string;

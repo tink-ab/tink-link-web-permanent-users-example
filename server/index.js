@@ -1,4 +1,4 @@
-require('dotenv').config({ path: '.env.development' });
+require('dotenv').config();
 const api = require('./api');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -8,19 +8,24 @@ const port = 8080;
 
 app.use(bodyParser.json());
 
-if (!process.env.REACT_APP_TINK_LINK_PERMANENT_USERS_CLIENT_ID) {
-  throw Error('Environment variable `REACT_APP_TINK_LINK_PERMANENT_USERS_CLIENT_ID` is not set.');
+if (!process.env.REACT_APP_TINK_CLIENT_ID) {
+  throw Error('Environment variable `REACT_APP_TINK_CLIENT_ID` is not set.');
 }
 
-if (!process.env.TINK_LINK_PERMANENT_USERS_CLIENT_SECRET) {
+if (!process.env.TINK_CLIENT_SECRET) {
   throw Error(
-    'Environment variable `TINK_LINK_PERMANENT_USERS_CLIENT_SECRET` is not set.'
+    'Environment variable `TINK_CLIENT_SECRET` is not set.'
   );
 }
 
 app.post('/permanent-user', async (req, res) => {
+  if (!req.body.market) {
+    res.status(400).json({ message: 'Market is required'});
+    return;
+  }
+
   const token = await api.fetchClientAccessToken();
-  const permanentUser = await api.createPermanentUser(token);
+  const permanentUser = await api.createPermanentUser(token, req.body.market);
 
   res.json({ data: permanentUser });
 });
