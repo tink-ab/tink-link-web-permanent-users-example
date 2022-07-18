@@ -9,6 +9,7 @@ import {
   getPaymentTransfers,
   Transfer,
   getUpdateConsentLink,
+  getProductsUpdateConsentLink,
 } from './api';
 import { Header } from './Header';
 import { CheckIcon } from './images/CheckIcon';
@@ -69,6 +70,12 @@ export const CredentialsList: React.FC<CredentialsListProps> = ({ userId, paymen
                     <PrettyCode code={JSON.stringify(credential, null, 2)} className="mt-20" />
                     {authorizationCode && (
                       <>
+                        <div className="mt-40">Refresh credentials</div>
+                        <PrettyCode
+                          className="mt-20"
+                          highlightSyntax={false}
+                          code={refreshCredentialsLink(authorizationCode, userId, credential.id)}
+                        />
                         <a
                           className="button mt-24"
                           href={refreshCredentialsLink(authorizationCode, userId, credential.id)}
@@ -92,11 +99,22 @@ export const CredentialsList: React.FC<CredentialsListProps> = ({ userId, paymen
                           authorizationCode={authorizationCode}
                         />
 
-                        <div className="mt-40">Update consent</div>
+                        <div className="mt-40">Transactions: Update consent</div>
                         <PrettyCode
                           className="mt-20"
                           highlightSyntax={false}
                           code={getUpdateConsentLink(authorizationCode, userId, credential.id)}
+                        />
+
+                        <div className="mt-40">Products: Update consent</div>
+                        <PrettyCode
+                          className="mt-20"
+                          highlightSyntax={false}
+                          code={getProductsUpdateConsentLink(
+                            authorizationCode,
+                            userId,
+                            credential.id
+                          )}
                         />
                       </>
                     )}
