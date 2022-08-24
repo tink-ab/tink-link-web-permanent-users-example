@@ -149,7 +149,6 @@ export const getAccountCheckUpdateConsentLink = (
 ) => {
   const params = [
     `client_id=${process.env.REACT_APP_TINK_LINK_PERMANENT_USERS_CLIENT_ID}`,
-    `products=${PRODUCTS}`,
     'redirect_uri=http://localhost:3000/callback',
     'locale=en_US',
     `state=${userId}`,
