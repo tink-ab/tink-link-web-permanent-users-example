@@ -8,8 +8,9 @@ import {
   authenticateCredentialsLink,
   getPaymentTransfers,
   Transfer,
-  getUpdateConsentLink,
   getProductsUpdateConsentLink,
+  getAccountCheckUpdateConsentLink,
+  getTransactionsUpdateConsentLink,
 } from './api';
 import { Header } from './Header';
 import { CheckIcon } from './images/CheckIcon';
@@ -103,7 +104,22 @@ export const CredentialsList: React.FC<CredentialsListProps> = ({ userId, paymen
                         <PrettyCode
                           className="mt-20"
                           highlightSyntax={false}
-                          code={getUpdateConsentLink(authorizationCode, userId, credential.id)}
+                          code={getTransactionsUpdateConsentLink(
+                            authorizationCode,
+                            userId,
+                            credential.id
+                          )}
+                        />
+
+                        <div className="mt-40">Account Check: Update consent</div>
+                        <PrettyCode
+                          className="mt-20"
+                          highlightSyntax={false}
+                          code={getAccountCheckUpdateConsentLink(
+                            authorizationCode,
+                            userId,
+                            credential.id
+                          )}
                         />
 
                         <div className="mt-40">Products: Update consent</div>
@@ -122,21 +138,14 @@ export const CredentialsList: React.FC<CredentialsListProps> = ({ userId, paymen
                 ))}
 
               {authorizationCode && (
-                <div>
+                <>
                   <div className="mt-40">Add credentials</div>
                   <PrettyCode
                     className="mt-20"
                     highlightSyntax={false}
                     code={getAddCredentialsLink(authorizationCode, userId)}
                   />
-
-                  <a
-                    className="button mt-24 mb-40"
-                    href={getAddCredentialsLink(authorizationCode, userId)}
-                  >
-                    Add credentials
-                  </a>
-                </div>
+                </>
               )}
             </div>
           </div>
