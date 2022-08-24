@@ -6,6 +6,7 @@ import {
   generateAuthorizationCode,
   getTransactionsLink,
   getProductsLink,
+  getAccountCheckLink,
 } from './api';
 import { CheckIcon } from './images/CheckIcon';
 import { Header } from './Header';
@@ -117,6 +118,13 @@ export const AddCredentials: React.FC = () => {
                     className="mt-20"
                     highlightSyntax={false}
                     code={getProductsLink(authorizationCode, user.user_id)}
+                  />
+                  <br /> <br />
+                  <div>Account Check: Connect</div>
+                  <PrettyCode
+                    className="mt-20"
+                    highlightSyntax={false}
+                    code={getAccountCheckLink(authorizationCode, user.user_id)}
                   />
                 </>
               )}
