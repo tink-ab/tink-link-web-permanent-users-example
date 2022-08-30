@@ -11,6 +11,7 @@ import {
   getProductsUpdateConsentLink,
   getAccountCheckUpdateConsentLink,
   getTransactionsUpdateConsentLink,
+  getTransactionsExtendConsentLink,
 } from './api';
 import { Header } from './Header';
 import { CheckIcon } from './images/CheckIcon';
@@ -105,6 +106,17 @@ export const CredentialsList: React.FC<CredentialsListProps> = ({ userId, paymen
                           className="mt-20"
                           highlightSyntax={false}
                           code={getTransactionsUpdateConsentLink(
+                            authorizationCode,
+                            userId,
+                            credential.id
+                          )}
+                        />
+
+                        <div className="mt-40">Transactions: Extend consent</div>
+                        <PrettyCode
+                          className="mt-20"
+                          highlightSyntax={false}
+                          code={getTransactionsExtendConsentLink(
                             authorizationCode,
                             userId,
                             credential.id

@@ -59,6 +59,7 @@ const fetchAuthorizationCode = async (userId, clientAccessToken) => {
     'payment:read,transfer:read,transfer:execute', // needed for executing payment requests - creating a transfers
     'link-session:read', // reading sessions
     'user-report-bundles:read,account-verification-reports:write', // needed for Account Check fetching accounts call
+    'provider-consents:read,provider-consents:write', // TODO:
   ].join(',');
   const idHint = 'John Doe';
 
