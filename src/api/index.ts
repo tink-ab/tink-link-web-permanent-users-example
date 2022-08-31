@@ -123,6 +123,24 @@ export const getTransactionsUpdateConsentLink = (
   return `${TINK_LINK_URL}/1.0/transactions/update-consent?${params.join('&')}`;
 };
 
+export const getTransactionsExtendConsentLink = (
+  authorizationCode: string,
+  userId: string,
+  credentialsId: string
+) => {
+  const params = [
+    `client_id=${process.env.REACT_APP_TINK_LINK_PERMANENT_USERS_CLIENT_ID}`,
+    'redirect_uri=http://localhost:3000/callback',
+    'locale=en_US',
+    `state=${userId}`,
+    `credentials_id=${credentialsId}`,
+    `authorization_code=${authorizationCode}`,
+    `test=${TEST}`,
+  ];
+
+  return `${TINK_LINK_URL}/1.0/transactions/extend-consent?${params.join('&')}`;
+};
+
 export const getProductsUpdateConsentLink = (
   authorizationCode: string,
   userId: string,
