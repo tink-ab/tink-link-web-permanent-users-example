@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import './index.css';
 import { AddCredentials } from './AddCredentials';
+import { AddDirectCredentials } from './AddDirectCredentials';
 import { TinkLinkCallback } from './TinkLinkCallback';
 
 ReactDOM.render(
@@ -12,8 +13,11 @@ ReactDOM.render(
       <Route path="/callback">
         <TinkLinkCallback />
       </Route>
-      <Route path="/">
+      <Route path="/" exact>
         <AddCredentials />
+      </Route>
+      <Route path="/direct">
+        <AddDirectCredentials />
       </Route>
     </Switch>
   </Router>,

@@ -1,10 +1,20 @@
-const TINK_LINK_URL = 'https://link.tink.com';
+// const TINK_LINK_URL = 'https://link.tink.com';
+// const TINK_LINK_URL = 'https://main.staging.oxford.tink.se';
+const TINK_LINK_URL = process.env.REACT_APP_TINK_LINK_PERMANENT_USERS_CLIENT_ID || 'https://link.tink.com';
 const TEST = true;
 
 const PRODUCTS = 'ACCOUNT_CHECK,TRANSACTIONS,ASSETS,LIABILITIES';
 
 export type User = {
   user_id: string;
+};
+
+export type Session = {
+  sessionId: string;
+};
+
+export type PaymentRequest = {
+  id: string;
 };
 
 export const createPermanentUser = async (): Promise<User> => {
@@ -19,6 +29,32 @@ export const createPermanentUser = async (): Promise<User> => {
 
   return permanentUserResponse.data;
 };
+
+export const createSession = async (): Promise<Session> => {
+  const response = await fetch('/session', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  const sessionResponse = await response.json();
+
+  return sessionResponse.data;
+}
+
+export const createPaymentRequest = async (): Promise<PaymentRequest> => {
+  const response = await fetch('/payment-request', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  const sessionResponse = await response.json();
+
+  return sessionResponse.data;
+}
 
 export const generateAuthorizationCode = async (userId: string): Promise<string> => {
   const response = await fetch('/authorization-code', {
@@ -222,6 +258,32 @@ export const getAccountCheckLink = (authorizationCode: string, userId: string) =
   ];
 
   return `${TINK_LINK_URL}/1.0/account-check/connect?${params.join('&')}`;
+};
+
+export const getPaymentsLink = (paymentRequestId: string, authorizationCode?: string, sessionId?: string, inputProvider?: string) => {
+  // Read more about Tink Link initialization parameters: https://docs.tink.com/api/#initialization-parameters
+  const params = [
+    `client_id=${process.env.REACT_APP_TINK_LINK_PERMANENT_USERS_CLIENT_ID}`,
+    'redirect_uri=http://localhost:3000/callback',
+    `market=${process.env.REACT_APP_TINK_LINK_PERMANENT_USERS_MARKET}`,
+    'locale=en_US',
+    `payment_request_id=${paymentRequestId}`,
+    `test=${TEST}`,
+  ];
+
+  if (authorizationCode) {
+    params.push(`authorization_code=${authorizationCode}`);
+  }
+
+  if (sessionId) {
+    params.push(`session_id=${sessionId}`);
+  }
+
+  if (inputProvider) {
+    params.push(`input_provider=${inputProvider}`)
+  }
+
+  return `${TINK_LINK_URL}/1.0/pay/direct?${params.join('&')}`;
 };
 
 export const getPaymentLink = (

@@ -19,10 +19,24 @@ if (!process.env.TINK_LINK_PERMANENT_USERS_CLIENT_SECRET) {
 }
 
 app.post('/permanent-user', async (req, res) => {
-  const token = await api.fetchClientAccessToken();
+  const token = await api.fetchClientAccessToken(true);
   const permanentUser = await api.createPermanentUser(token);
 
   res.json({ data: permanentUser });
+});
+
+app.post('/session', async (req, res) => {
+  const token = await api.fetchClientAccessToken();
+  const session = await api.createSession(token);
+
+  res.json({ data: session });
+});
+
+app.post('/payment-request', async (req, res) => {
+  const token = await api.fetchClientAccessToken();
+  const paymentRequest = await api.createPaymentRequest(token);
+
+  res.json({ data: paymentRequest });
 });
 
 app.post('/authorization-code', async (req, res) => {
