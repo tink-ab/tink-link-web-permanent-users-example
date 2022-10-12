@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "body-parser": "1.19.0",
+    "body-parser": "1.20.1",
     "express": "4.17.1",
     "node-fetch": "2.6.7",
     "react": "18.2.0",
