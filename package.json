@@ -14,7 +14,7 @@
     "@types/node": "16.11.65",
     "@types/react": "18.0.21",
     "@types/react-dom": "18.0.6",
-    "@types/react-router-dom": "5.3.1",
+    "@types/react-router-dom": "5.3.3",
     "dotenv": "16.0.3",
     "react-scripts": "5.0.1",
     "typescript": "4.8.4"
